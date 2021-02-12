@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { useEffect, Fragment } from 'react'
 import styled from 'styled-components'
 
 const StatusWrapper = styled.div`
@@ -12,9 +12,16 @@ const StatusWrapper = styled.div`
 const Dashboard = (props) => {
   console.log(props)
 
+  useEffect( () => {
+    const timer = setTimeout(() => {
+      document.querySelector('.timedMessage').style.display = 'none';
+    }, 5000)
+    return () => clearTimeout(timer)
+  }, [])
+
   return (
     <Fragment>
-      <StatusWrapper>{props.location.state.statusMessage.text}</StatusWrapper>
+      <StatusWrapper className="timedMessage">{props.location.state.statusMessage.text}</StatusWrapper>
       <div>[This is my Dashboard component]</div>
     </Fragment>
   )
