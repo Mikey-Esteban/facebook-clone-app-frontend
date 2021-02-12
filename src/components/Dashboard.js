@@ -1,5 +1,6 @@
 import React, { useEffect, Fragment } from 'react'
 import styled from 'styled-components'
+import Navbar from './Navbar'
 
 const StatusWrapper = styled.div`
   position: absolute;
@@ -22,6 +23,7 @@ const Dashboard = (props) => {
   return (
     <Fragment>
       <StatusWrapper className="timedMessage">{props.location.state.statusMessage.text}</StatusWrapper>
+      <Navbar user={props.location.state.user} />
       <div>[This is my Dashboard component]</div>
     </Fragment>
   )
