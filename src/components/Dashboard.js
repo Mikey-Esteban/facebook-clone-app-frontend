@@ -2,6 +2,7 @@ import React, { useState, useEffect, Fragment } from 'react'
 import axios from 'axios'
 import styled from 'styled-components'
 import Navbar from './Navbar'
+import Button from './UI/Button'
 
 const StatusWrapper = styled.div`
   position: absolute;
@@ -14,6 +15,7 @@ const StatusWrapper = styled.div`
 const Dashboard = (props) => {
   console.log(props)
 
+  const currentUser = props.location.state.user
   const [ users, setUsers ] = useState([])
 
   useEffect( () => {
@@ -27,19 +29,40 @@ const Dashboard = (props) => {
       }
     })
       .then( resp => {
-        debugger
-        setUsers(resp.data.data)
+        const otherUsers = resp.data.data.filter( item => item.id !== currentUser.id.toString() )
+        setUsers(otherUsers)
       })
-      .catch( resp => {
-        debugger
-        console.log(resp)
-      })
+      .catch( resp => console.log(resp))
 
     return () => clearTimeout(timer)
-  }, [])
+  }, [currentUser.id])
+
+  const handleFriendRequest = (receiver_id) => {
+    const data = {
+      requestor_id: currentUser.id,
+      receiver_id: receiver_id,
+      status: 'pending'
+    }
+    axios.post('http://localhost:3000/api/v1/friend_requests', data, {
+      headers: {
+        'Authorization': localStorage.getItem('token')
+      }
+    })
+      .then( resp => {
+        debugger
+      })
+      .catch( resp => console.log(resp))
+  }
 
   const usersList = users.map( item => {
-    return( <li>{item.attributes.name}: {item.attributes.email}</li>)
+    return(
+      <li key={item.id}>
+        {item.attributes.name}
+        <Button onClick={() => handleFriendRequest(item.id)}>
+          send request
+        </Button>
+      </li>
+    )
   })
 
   return (
