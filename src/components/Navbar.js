@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import Dropdown from './UI/Dropdown'
 
 const Wrapper = styled.div`
   position: absolute;
@@ -7,16 +8,25 @@ const Wrapper = styled.div`
 
   display: flex;
   justify-content: flex-end;
-  align-items: baseline;
+  align-items: flex-start;
   width: 100%;
 
   ${'' /* background: #efefef; */}
 `
 
 const Navbar = (props) => {
-  console.log(props);
+
+  const list = [
+    {id: 0, title: 'first'},
+    {id: 1, title: 'second'},
+    {id: 2, title: 'third'},
+    {id: 3, title: 'fourth'}
+  ]
   return (
-    <Wrapper>[This is my Navbar component]</Wrapper>
+    <Wrapper>
+      [This is my Navbar component]
+      <Dropdown list={list} />
+    </Wrapper>
   )
 }
 
