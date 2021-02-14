@@ -3,6 +3,7 @@ import axios from 'axios'
 import styled from 'styled-components'
 import Navbar from './Navbar'
 import Button from './UI/Button'
+import LightBlueButton from './UI/LightBlueButton'
 
 const StatusWrapper = styled.div`
   position: absolute;
@@ -17,11 +18,14 @@ const Dashboard = (props) => {
 
   const currentUser = props.location.state.user
   const [ users, setUsers ] = useState([])
+  const [ sentFriendRequests, setSentFriendRequests ] = useState([])
 
   useEffect( () => {
+    // set timeout function to display login message
     const timer = setTimeout(() => {
       document.querySelector('.timedMessage').style.display = 'none';
     }, 5000)
+
 
     axios.get('http://localhost:3000/api/v1/users', {
       headers: {
@@ -29,8 +33,16 @@ const Dashboard = (props) => {
       }
     })
       .then( resp => {
-        const otherUsers = resp.data.data.filter( item => item.id !== currentUser.id.toString() )
+        // grab other users
+        const otherUsers = resp.data.data.filter( item => {
+          return item.id !== currentUser.id.toString()
+        })
         setUsers(otherUsers)
+        // grab sent friend requests
+        const friendRequests = resp.data.included.filter( item => {
+          return item.attributes.requestor_id.toString() === currentUser.id.toString()
+        })
+        setSentFriendRequests(friendRequests)
       })
       .catch( resp => console.log(resp))
 
@@ -54,13 +66,47 @@ const Dashboard = (props) => {
       .catch( resp => console.log(resp))
   }
 
+  const checkFriendRequestStatus = (user_id) => {
+    const statusObj = sentFriendRequests.filter(item => {
+      return item.attributes.receiver_id.toString() === user_id
+    })
+
+    if (statusObj.length > 0) {
+      const status = statusObj[0]['attributes']['status']
+      return status
+    } else {
+      return null
+    }
+  }
+
+  const friendRequestButton = (user_id) => {
+    const status = checkFriendRequestStatus(user_id)
+    if ( status === 'pending' ) {
+      return <LightBlueButton> sent! </LightBlueButton>
+    } else if ( status === null || status === 'rejected' ) {
+      return (
+        <Button onClick={() => handleFriendRequest(user_id)}>
+          send request
+        </Button>
+      )
+    } else if ( status === 'accepted' ) {
+      return null
+    }
+  }
+
   const usersList = users.map( item => {
     return(
       <li key={item.id}>
         {item.attributes.name}
-        <Button onClick={() => handleFriendRequest(item.id)}>
-          send request
-        </Button>
+        { friendRequestButton(item.id) }
+      </li>
+    )
+  })
+
+  const friendRequestsList = sentFriendRequests.map( item => {
+    return (
+      <li key={item.id}>
+        sender: {item.attributes.requestor_id}, receiver: {item.attributes.receiver_id}, status: {item.attributes.status}
       </li>
     )
   })
@@ -70,7 +116,14 @@ const Dashboard = (props) => {
       <StatusWrapper className="timedMessage">{props.location.state.statusMessage.text}</StatusWrapper>
       <Navbar user={props.location.state.user} />
       <div>[This is my Dashboard component]</div>
-      <ul>{usersList}</ul>
+      <div className="users">
+        <p>People to friend...</p>
+        <ul>{usersList}</ul>
+      </div>
+      <div className="friend-requests-status">
+        <p>Sent requests</p>
+        <ul>{friendRequestsList}</ul>
+      </div>
     </Fragment>
   )
 }

@@ -49,6 +49,7 @@ const Home = () => {
         }
       })
       .then(json => {
+        debugger
         console.dir(json)
         setCurrentUser(json.data)
         setStatusMessage({'text': json.status.message, 'code': 200})
