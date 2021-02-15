@@ -15,6 +15,7 @@ const Wrapper = styled.div`
 `
 
 const Navbar = (props) => {
+  const { sentFriendRequests } = props
 
   const list = [
     {id: 0, title: 'first'},
@@ -22,10 +23,20 @@ const Navbar = (props) => {
     {id: 2, title: 'third'},
     {id: 3, title: 'fourth'}
   ]
+
+  const acceptedSentFriendRequests = sentFriendRequests.filter( item => item.attributes.status === 'accepted' )
+  const acceptedList = acceptedSentFriendRequests.map(item => {
+    return ({
+      id: item.id,
+      title: `${item.attributes['receiver_name']} added you back as a friend!`
+    })
+  })
+
   return (
     <Wrapper>
       [This is my Navbar component]
       <Dropdown list={list} />
+      <Dropdown list={acceptedList} headerTitle={'notifications'} />
     </Wrapper>
   )
 }
