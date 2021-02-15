@@ -1,10 +1,17 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUserFriends } from '@fortawesome/free-solid-svg-icons'
+import { faUserFriends, faBell } from '@fortawesome/free-solid-svg-icons'
 
 const DropdownWrapper = styled.div`
-  width: 100px;
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+`
+
+const Header = styled.div`
+  display: flex;
+  justify-content: space-around;
 `
 
 const Button = styled.div`
@@ -14,7 +21,8 @@ const Button = styled.div`
 
   background: #fff;
   border: 1px solid #efefef;
-  width: 80%;
+  margin-left: 5%;
+  width: 90%;
 
   cursor: pointer;
   font-family: 'Roboto Mono', monospace;
@@ -27,15 +35,15 @@ const Button = styled.div`
 
 const TitleWrapper = styled.div`
   color: #1d3557; /* dark blue */
-  ${'' /* margin-left: 20px; */}
 `
 
 const IconWrapper = styled.div`
   margin-right: 20px;
+  cursor: pointer;
 `
 
 const Dropdown = (props) => {
-
+  console.log('dropdown props', props);
   const list = props.list
   const [ isListOpen, setIsListOpen ] = useState(false)
 
@@ -45,22 +53,14 @@ const Dropdown = (props) => {
 
   return (
     <DropdownWrapper>
-      {/* <Button
-        type="button"
-        className="dd-header"
-        onClick={toggleList}
-      > */}
+      <Header>
+        { props.headerTitle }
         <IconWrapper onClick={toggleList}>
-          {isListOpen
-            ? <FontAwesomeIcon icon={faUserFriends} color="#8d99ae" />
-            : <FontAwesomeIcon icon={faUserFriends} color="#8d99ae" />}
+          <FontAwesomeIcon icon={faBell} color="#8d99ae" />
         </IconWrapper>
-      {/* </Button> */}
+      </Header>
       {isListOpen && (
-        <div
-          role="list"
-          className="dd-list"
-        >
+        <div role="list" className="dd-list" >
           {list.map((item) => (
             <Button
               type="button"
