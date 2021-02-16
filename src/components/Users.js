@@ -4,7 +4,6 @@ import LightBlueButton from './UI/buttons/LightBlueButton'
 import OrangeButton from './UI/buttons/OrangeButton'
 import GrayButton from './UI/buttons/GrayButton'
 
-
 const Users = (props) => {
 
   const checkFriendRequestStatus = (user_id) => {
