@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import Button from './UI/Button'
+import Button from './UI/buttons/Button'
 import Field from './UI/FormField'
 
 const ButtonWrapper = styled.div`

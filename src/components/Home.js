@@ -23,6 +23,7 @@ const Home = () => {
 
   const [ user, setUser ] = useState({})
   const [ currentUser, setCurrentUser ] = useState({})
+  const [ currentUserFriends, setCurrentUserFriends ] = useState([])
   const [ statusMessage, setStatusMessage ] = useState({})
   const [ redirect, setRedirect ] = useState(false)
 
@@ -49,9 +50,10 @@ const Home = () => {
         }
       })
       .then(json => {
-        debugger
         console.dir(json)
+        debugger
         setCurrentUser(json.data)
+        setCurrentUserFriends(json.data.friendships)
         setStatusMessage({'text': json.status.message, 'code': 200})
         setRedirect(true)
       })
@@ -70,6 +72,7 @@ const Home = () => {
           pathname: '/dashboard',
           state: {
             user: currentUser,
+            friends: currentUserFriends,
             statusMessage: statusMessage
           }
         }}
