@@ -10,7 +10,7 @@ const List = styled.ul`
 `
 
 const FriendRequests = (props) => {
-
+  console.log('Friend Request props', props);
   const { nonFriendedUsers, friends,
     sentFriendRequests, receivedFriendRequests } = props
 

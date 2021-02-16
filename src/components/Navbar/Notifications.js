@@ -2,7 +2,7 @@ import React from 'react'
 import Dropdown from '../UI/Dropdown'
 
 const Notifications = (props) => {
-
+  console.log('Notifications props', props);
   const { sentFriendRequests, receivedFriendRequests } = props
   const notifications = []
 

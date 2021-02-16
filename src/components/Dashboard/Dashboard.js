@@ -1,8 +1,8 @@
 import React, { useState, useEffect, Fragment } from 'react'
-import axios from 'axios'
 import axiosApiInstance from '../interceptor'
 import styled from 'styled-components'
-import Navbar from '../Navbar'
+import Navbar from '../Navbar/Navbar'
+import Breadcrumb from './Breadcrumb'
 import FriendRequests from './FriendRequests/FriendRequests'
 
 const DashboardWrapper = styled.div`
@@ -31,6 +31,9 @@ const Dashboard = (props) => {
   const [ nonFriendedUsers, setNonFriendedUsers ] = useState([])
   const [ sentFriendRequests, setSentFriendRequests ] = useState([])
   const [ receivedFriendRequests, setReceivedFriendRequests ] = useState([])
+  const [ viewFriendRequests, setViewFriendRequests ] = useState(false)
+  const [ viewFeed, setViewFeed ] = useState(false)
+  const [ viewExplore, setViewExplore ] = useState(false)
 
   useEffect( () => {
     // set timeout function to display login message
@@ -70,7 +73,7 @@ const Dashboard = (props) => {
       .catch( resp => console.log(resp))
 
     return () => clearTimeout(timer)
-  }, [currentUser.id, receivedFriendRequests.length, friends.length])
+  }, [])
 
   const handleSendFriendRequest = (receiver_id) => {
     const data = {
@@ -105,6 +108,21 @@ const Dashboard = (props) => {
       .catch( resp => console.log(resp))
   }
 
+  const handleViewForm = (id) => {
+    console.log('In handleviewform');
+    setViewFriendRequests(false)
+    setViewFeed(false)
+    setViewExplore(false)
+    if (id === 'friends') {
+      setViewFriendRequests(true)
+    }
+    else if (id === 'feed') {
+      setViewFeed(true)
+    } else {
+      setViewExplore(true)
+    }
+  }
+
   return (
     <Fragment>
       <StatusWrapper className="timedMessage">{props.location.state.statusMessage.text}</StatusWrapper>
@@ -113,13 +131,16 @@ const Dashboard = (props) => {
         receivedFriendRequests={receivedFriendRequests}
       />
       <DashboardWrapper>
-        <FriendRequests
-          nonFriendedUsers={nonFriendedUsers} friends={friends}
-          sentFriendRequests={sentFriendRequests}
-          receivedFriendRequests={receivedFriendRequests}
-          handleSendFriendRequest={handleSendFriendRequest}
-          handleAcceptFriendRequest={handleAcceptFriendRequest}
-        />
+        <Breadcrumb handleViewForm={handleViewForm} />
+        { viewFriendRequests &&
+          <FriendRequests
+            nonFriendedUsers={nonFriendedUsers} friends={friends}
+            sentFriendRequests={sentFriendRequests}
+            receivedFriendRequests={receivedFriendRequests}
+            handleSendFriendRequest={handleSendFriendRequest}
+            handleAcceptFriendRequest={handleAcceptFriendRequest}
+          />
+        }
       </DashboardWrapper>
     </Fragment>
   )
