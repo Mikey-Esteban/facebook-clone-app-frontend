@@ -2,7 +2,7 @@ import React from 'react'
 import './App.css'
 import { Route, Switch } from 'react-router-dom'
 import Home from './components/Home'
-import Dashboard from './components/Dashboard'
+import Dashboard from './components/Dashboard/Dashboard'
 
 const App = () => {
 

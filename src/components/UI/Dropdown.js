@@ -43,7 +43,7 @@ const IconWrapper = styled.div`
 `
 
 const Dropdown = (props) => {
-  console.log('dropdown props', props);
+
   const list = props.list
   const [ isListOpen, setIsListOpen ] = useState(false)
 

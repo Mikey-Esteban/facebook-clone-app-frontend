@@ -16,15 +16,8 @@ const Wrapper = styled.div`
 
 const Navbar = (props) => {
 
-  const { sentFriendRequests } = props
+  const { sentFriendRequests, receivedFriendRequests } = props
   const [ redirect, setRedirect ] = useState(false)
-
-  const list = [
-    {id: 0, title: 'first'},
-    {id: 1, title: 'second'},
-    {id: 2, title: 'third'},
-    {id: 3, title: 'fourth'}
-  ]
 
   const handleLogOut = () => {
     fetch('http://localhost:3000/logout', {
@@ -65,7 +58,6 @@ const Navbar = (props) => {
   return (
     <Wrapper>
       [This is my Navbar component]
-      <Dropdown list={list} />
       <Dropdown list={acceptedList} headerTitle={`${acceptedList.length} notifications`} />
       <GrayButton onClick={handleLogOut}>Log out</GrayButton>
     </Wrapper>
