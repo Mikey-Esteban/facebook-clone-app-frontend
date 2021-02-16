@@ -41,7 +41,6 @@ const Dashboard = (props) => {
     // Api call to set friends
     axiosApiInstance.get(`http://localhost:3000/api/v1/users/${currentUser.id}`)
       .then( resp => {
-        debugger
         setFriends(resp.data.data.attributes.friendships)
       })
       .catch( resp => console.log(resp))
@@ -49,7 +48,6 @@ const Dashboard = (props) => {
     // Api call for sentFriendRequests & receivedFriendRequests
     axiosApiInstance.get('http://localhost:3000/api/v1/users')
       .then( resp => {
-        debugger
         // grab sent friend requests
         const sentRequests = resp.data.included.filter( item => {
           return item.attributes.requestor_id.toString() === currentUser.id.toString()
@@ -82,7 +80,6 @@ const Dashboard = (props) => {
     }
     axiosApiInstance.post('http://localhost:3000/api/v1/friend_requests', data)
       .then( resp => {
-        debugger
         const newSentRequest = resp.data.data
         setSentFriendRequests([...sentFriendRequests, newSentRequest])
       })
@@ -90,7 +87,6 @@ const Dashboard = (props) => {
   }
 
   const handleAcceptFriendRequest = (friendRequest) => {
-    console.log('in Dashboard handleAcceptFriendRequest');
     const id = friendRequest.id
     delete friendRequest.attributes.requestor_name
     delete friendRequest.attributes.receiver_name

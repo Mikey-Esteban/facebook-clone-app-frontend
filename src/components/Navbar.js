@@ -15,9 +15,29 @@ const Wrapper = styled.div`
 `
 
 const Navbar = (props) => {
+  console.log('Navbar props', props);
 
   const { sentFriendRequests, receivedFriendRequests } = props
+  const notifications = []
   const [ redirect, setRedirect ] = useState(false)
+
+  const acceptedSentFriendRequests = sentFriendRequests.filter( item => item.attributes.status === 'accepted' )
+  acceptedSentFriendRequests.forEach(item => {
+    const data = {
+      id: item.id,
+      title: `${item.attributes['receiver_name']} added you back as a friend!`
+    }
+    notifications.push(data)
+  })
+
+  receivedFriendRequests.forEach(item => {
+    const data = {
+      id: item.id,
+      title: `${item.attributes['requestor_name']} sent you a friend request!`
+    }
+    notifications.push(data)
+  })
+
 
   const handleLogOut = () => {
     fetch('http://localhost:3000/logout', {
@@ -42,23 +62,17 @@ const Navbar = (props) => {
       .catch(err => console.error(err))
   }
 
-  const acceptedSentFriendRequests = sentFriendRequests.filter( item => item.attributes.status === 'accepted' )
-  const acceptedList = acceptedSentFriendRequests.map(item => {
-    return ({
-      id: item.id,
-      title: `${item.attributes['receiver_name']} added you back as a friend!`
-    })
-  })
-
   if (redirect) {
     return <Redirect to={'/'} />
   }
 
 
+  console.log(notifications);
+
   return (
     <Wrapper>
       [This is my Navbar component]
-      <Dropdown list={acceptedList} headerTitle={`${acceptedList.length} notifications`} />
+      <Dropdown list={notifications} headerTitle={`${notifications.length} notifications`} />
       <GrayButton onClick={handleLogOut}>Log out</GrayButton>
     </Wrapper>
   )
