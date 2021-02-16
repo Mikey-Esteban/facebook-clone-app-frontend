@@ -51,7 +51,6 @@ const Home = () => {
       })
       .then(json => {
         console.dir(json)
-        debugger
         setCurrentUser(json.data)
         setCurrentUserFriends(json.data.friendships)
         setStatusMessage({'text': json.status.message, 'code': 200})
