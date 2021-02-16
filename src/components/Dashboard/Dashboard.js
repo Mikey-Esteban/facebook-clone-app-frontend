@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import Navbar from '../Navbar/Navbar'
 import Breadcrumb from './Breadcrumb'
 import FriendRequests from './FriendRequests/FriendRequests'
+import Feed from './Feed/Feed'
 
 const DashboardWrapper = styled.div`
   display: flex;
@@ -140,6 +141,9 @@ const Dashboard = (props) => {
             handleSendFriendRequest={handleSendFriendRequest}
             handleAcceptFriendRequest={handleAcceptFriendRequest}
           />
+        }
+        { viewFeed &&
+          <Feed />
         }
       </DashboardWrapper>
     </Fragment>
