@@ -67,7 +67,7 @@ const Dropdown = (props) => {
               className="dd-list-item"
               key={item.id}
             >
-              <TitleWrapper>{item.title}</TitleWrapper>
+              <TitleWrapper>{item.text}</TitleWrapper>
               {' '}
             </Button>
           ))}
