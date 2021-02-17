@@ -49,6 +49,7 @@ const Dropdown = (props) => {
 
   const toggleList = () => {
     isListOpen ? setIsListOpen(false) : setIsListOpen(true) ;
+    props.handleReadNotifications()
   }
 
   return (
