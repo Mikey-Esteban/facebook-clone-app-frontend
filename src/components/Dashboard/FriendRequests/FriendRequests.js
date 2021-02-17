@@ -76,6 +76,7 @@ const FriendRequests = (props) => {
     return(
       <Users key={item.id}
         handleAcceptFriendRequest={props.handleAcceptFriendRequest}
+        handleDeleteFriendRequest={props.handleDeleteFriendRequest}
         user={item}
         status={'pending'}
         actor={'receiver'}

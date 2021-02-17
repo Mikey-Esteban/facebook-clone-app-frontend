@@ -16,7 +16,7 @@ const Users = (props) => {
           <LightBlueButton onClick={() => props.handleAcceptFriendRequest(props.friendRequest)}>
             accept
           </LightBlueButton>
-          <Button>reject</Button>
+          <Button onClick={() => props.handleDeleteFriendRequest(props.friendRequest)}>reject</Button>
         </Fragment>
       )
     }  else if ( props.status === null || props.status === 'rejected' ) {

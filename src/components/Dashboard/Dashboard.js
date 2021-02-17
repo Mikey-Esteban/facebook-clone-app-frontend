@@ -78,7 +78,7 @@ const Dashboard = (props) => {
       .catch( resp => console.log(resp))
 
     return () => clearTimeout(timer)
-  }, [])
+  }, [currentUser.id, friends.length, sentFriendRequests.length, receivedFriendRequests.length])
 
   const handleSendFriendRequest = (receiver_id) => {
     const data = {
@@ -94,29 +94,40 @@ const Dashboard = (props) => {
       .catch( resp => console.log(resp))
   }
 
-  const handleAcceptFriendRequest = (friendRequest) => {
-    const id = friendRequest.id
+  const cleanUpFriendRequest = (friendRequest) => {
     delete friendRequest.attributes.requestor_name
     delete friendRequest.attributes.receiver_name
+    return friendRequest
+  }
+  const handleAcceptFriendRequest = (friendRequest) => {
+    friendRequest = cleanUpFriendRequest(friendRequest)
     friendRequest.attributes.status = 'accepted'
 
     const data = { friend_request: friendRequest.attributes }
 
-    axiosApiInstance.patch(`http://localhost:3000/api/v1/friend_requests/${id}`, data)
+    axiosApiInstance.patch(`http://localhost:3000/api/v1/friend_requests/${friendRequest.id}`, data)
       .then( resp => {
         debugger
         // add requestor to friends
         const newFriend = nonFriendedUsers.filter( item => item.id === friendRequest.attributes.requestor_id.toString() )
         setFriends([...friends, newFriend[0]])
-        // filter friend request from receivedFriendRequests
-        const filteredReceivedRequests = receivedFriendRequests.filter( item => item.id !== friendRequest.id )
-        setReceivedFriendRequests(filteredReceivedRequests)
         // delete friend request from db
-        axiosApiInstance.delete(`http://localhost:3000/api/v1/friend_requests/${id}`, data)
-          .then( resp => {
-            debugger
-          })
-          .catch( resp => console.log(resp))
+        handleDeleteFriendRequest(friendRequest)
+      })
+      .catch( resp => console.log(resp))
+  }
+
+  const handleDeleteFriendRequest = (friendRequest) => {
+    // filter friend request from receivedFriendRequests
+    const filteredReceivedRequests = receivedFriendRequests.filter( item => item.id !== friendRequest.id )
+    setReceivedFriendRequests(filteredReceivedRequests)
+
+    friendRequest = cleanUpFriendRequest(friendRequest)
+    const data = { friend_request: friendRequest.attributes }
+
+    axiosApiInstance.delete(`http://localhost:3000/api/v1/friend_requests/${friendRequest.id}`, data)
+      .then( resp => {
+        debugger
       })
       .catch( resp => console.log(resp))
   }
@@ -152,6 +163,7 @@ const Dashboard = (props) => {
               receivedFriendRequests={receivedFriendRequests}
               handleSendFriendRequest={handleSendFriendRequest}
               handleAcceptFriendRequest={handleAcceptFriendRequest}
+              handleDeleteFriendRequest={handleDeleteFriendRequest}
             />
           }
           { viewFeed &&
