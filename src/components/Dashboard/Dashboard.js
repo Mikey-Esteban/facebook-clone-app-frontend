@@ -149,10 +149,7 @@ const Dashboard = (props) => {
     <Fragment>
       <StatusWrapper className="timedMessage">{props.location.state.statusMessage.text}</StatusWrapper>
       <UserContext.Provider value={currentUser}>
-        <Navbar user={props.location.state.user}
-          sentFriendRequests={sentFriendRequests}
-          receivedFriendRequests={receivedFriendRequests}
-        />
+        <Navbar />
         <DashboardWrapper>
           <Breadcrumb handleViewForm={handleViewForm} />
           { viewFriendRequests &&

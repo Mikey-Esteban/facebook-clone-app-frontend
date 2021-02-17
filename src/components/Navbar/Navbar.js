@@ -14,7 +14,7 @@ const Wrapper = styled.div`
   width: 100%;
 `
 
-const Navbar = (props) => {
+const Navbar = () => {
 
   const [ redirect, setRedirect ] = useState(false)
 
@@ -48,10 +48,7 @@ const Navbar = (props) => {
   return (
     <Wrapper>
       [This is my Navbar component]
-      <Notifications
-        sentFriendRequests={props.sentFriendRequests}
-        receivedFriendRequests={props.receivedFriendRequests}
-      />
+      <Notifications />
       <GrayButton onClick={handleLogOut}>Log out</GrayButton>
     </Wrapper>
   )
