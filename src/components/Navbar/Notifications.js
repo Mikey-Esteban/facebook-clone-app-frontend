@@ -6,7 +6,7 @@ const Notifications = (props) => {
 
   const { sentFriendRequests, receivedFriendRequests } = props
   const currentUser = useContext(UserContext)
-  const notifications = currentUser.notifications
+  const notifications = currentUser.notifications.reverse()
 
   const acceptedSentFriendRequests = sentFriendRequests.filter( item => item.attributes.status === 'accepted' )
   acceptedSentFriendRequests.forEach(item => {
