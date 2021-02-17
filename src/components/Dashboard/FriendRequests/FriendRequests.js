@@ -50,7 +50,6 @@ const FriendRequests = (props) => {
   })
 
   const friendsList = friends.map( item => {
-    console.log(item);
     return(
       <Users key={item.id}
         user={item}
