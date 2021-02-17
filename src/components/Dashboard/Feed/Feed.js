@@ -1,5 +1,6 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import styled from 'styled-components'
+import NewPost from './NewPost'
 
 const Wrapper = styled.div`
   display: flex;
@@ -10,7 +11,7 @@ const Feed = () => {
   return (
     <Wrapper>
       <div>[This is the Feed component]</div>
-      <div>[Create post form goes here]</div>
+      <NewPost />
       <div>[Show friend posts goes here]</div>
     </Wrapper>
   )

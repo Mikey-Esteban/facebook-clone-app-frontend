@@ -12,7 +12,6 @@ const Posts = () => {
     // Api call for current users posts
     axiosApiInstance.get(`http://localhost:3000/api/v1/users/${currentUser.id}`)
       .then( resp => {
-        debugger
         setPosts(resp.data.data.attributes.posts)
       })
       .catch( resp => console.log(resp))
