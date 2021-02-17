@@ -118,16 +118,15 @@ const Dashboard = (props) => {
   }
 
   const handleDeleteFriendRequest = (friendRequest) => {
-    // filter friend request from receivedFriendRequests
-    const filteredReceivedRequests = receivedFriendRequests.filter( item => item.id !== friendRequest.id )
-    setReceivedFriendRequests(filteredReceivedRequests)
-
     friendRequest = cleanUpFriendRequest(friendRequest)
     const data = { friend_request: friendRequest.attributes }
 
     axiosApiInstance.delete(`http://localhost:3000/api/v1/friend_requests/${friendRequest.id}`, data)
       .then( resp => {
         debugger
+        // filter friend request from receivedFriendRequests
+        const filteredReceivedRequests = receivedFriendRequests.filter( item => item.id !== friendRequest.id )
+        setReceivedFriendRequests(filteredReceivedRequests)
       })
       .catch( resp => console.log(resp))
   }
