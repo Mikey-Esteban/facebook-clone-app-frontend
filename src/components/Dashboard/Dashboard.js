@@ -5,12 +5,16 @@ import Navbar from '../Navbar/Navbar'
 import Breadcrumb from './Breadcrumb'
 import FriendRequests from './FriendRequests/FriendRequests'
 import Feed from './Feed/Feed'
+import Profile from './Profile/Profile'
+
+// Context hook for currentUser
+export const UserContext = React.createContext()
 
 const DashboardWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin: 100px auto;
-  max-width: 300px;
+  max-width: 800px;
   padding: 20px 40px;
 
   background: #eee;
@@ -34,7 +38,7 @@ const Dashboard = (props) => {
   const [ receivedFriendRequests, setReceivedFriendRequests ] = useState([])
   const [ viewFriendRequests, setViewFriendRequests ] = useState(false)
   const [ viewFeed, setViewFeed ] = useState(false)
-  const [ viewExplore, setViewExplore ] = useState(false)
+  const [ viewProfile, setViewProfile ] = useState(false)
 
   useEffect( () => {
     // set timeout function to display login message
@@ -110,42 +114,46 @@ const Dashboard = (props) => {
   }
 
   const handleViewForm = (id) => {
-    console.log('In handleviewform');
     setViewFriendRequests(false)
     setViewFeed(false)
-    setViewExplore(false)
+    setViewProfile(false)
     if (id === 'friends') {
       setViewFriendRequests(true)
     }
     else if (id === 'feed') {
       setViewFeed(true)
     } else {
-      setViewExplore(true)
+      setViewProfile(true)
     }
   }
 
   return (
     <Fragment>
       <StatusWrapper className="timedMessage">{props.location.state.statusMessage.text}</StatusWrapper>
-      <Navbar user={props.location.state.user}
-        sentFriendRequests={sentFriendRequests}
-        receivedFriendRequests={receivedFriendRequests}
-      />
-      <DashboardWrapper>
-        <Breadcrumb handleViewForm={handleViewForm} />
-        { viewFriendRequests &&
-          <FriendRequests
-            nonFriendedUsers={nonFriendedUsers} friends={friends}
-            sentFriendRequests={sentFriendRequests}
-            receivedFriendRequests={receivedFriendRequests}
-            handleSendFriendRequest={handleSendFriendRequest}
-            handleAcceptFriendRequest={handleAcceptFriendRequest}
-          />
-        }
-        { viewFeed &&
-          <Feed />
-        }
-      </DashboardWrapper>
+      <UserContext.Provider value={currentUser}>
+        <Navbar user={props.location.state.user}
+          sentFriendRequests={sentFriendRequests}
+          receivedFriendRequests={receivedFriendRequests}
+        />
+        <DashboardWrapper>
+          <Breadcrumb handleViewForm={handleViewForm} />
+          { viewFriendRequests &&
+            <FriendRequests
+              nonFriendedUsers={nonFriendedUsers} friends={friends}
+              sentFriendRequests={sentFriendRequests}
+              receivedFriendRequests={receivedFriendRequests}
+              handleSendFriendRequest={handleSendFriendRequest}
+              handleAcceptFriendRequest={handleAcceptFriendRequest}
+            />
+          }
+          { viewFeed &&
+            <Feed />
+          }
+          { viewProfile &&
+            <Profile />
+          }
+        </DashboardWrapper>
+      </UserContext.Provider>
     </Fragment>
   )
 }

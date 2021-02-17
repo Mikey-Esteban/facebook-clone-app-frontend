@@ -2,7 +2,6 @@ import React, { Fragment } from 'react'
 import styled from 'styled-components'
 import Users from './Users'
 
-
 const List = styled.ul`
   li {
     margin: 10px 0;
@@ -10,7 +9,7 @@ const List = styled.ul`
 `
 
 const FriendRequests = (props) => {
-  console.log('Friend Request props', props);
+
   const { nonFriendedUsers, friends,
     sentFriendRequests, receivedFriendRequests } = props
 
