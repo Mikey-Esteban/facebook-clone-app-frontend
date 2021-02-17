@@ -5,6 +5,7 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
+  max-width: 300px;
 
   color: #0088cc; /* light blue */
 
@@ -20,7 +21,7 @@ const Breadcrumb = (props) => {
       /
       <p onClick={() => props.handleViewForm('feed')}>News Feed</p>
       /
-      <p onClick={() => props.handleViewForm('explore')}>Explore</p>
+      <p onClick={() => props.handleViewForm('profile')}>Profile</p>
     </Wrapper>
   )
 }
