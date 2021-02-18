@@ -99,6 +99,7 @@ const Dashboard = (props) => {
     delete friendRequest.attributes.receiver_name
     return friendRequest
   }
+
   const handleAcceptFriendRequest = (friendRequest) => {
     friendRequest = cleanUpFriendRequest(friendRequest)
     friendRequest.attributes.status = 'accepted'
@@ -112,14 +113,17 @@ const Dashboard = (props) => {
         const newFriend = nonFriendedUsers.filter( item => item.id === friendRequest.attributes.requestor_id.toString() )
         setFriends([...friends, newFriend[0]])
         // delete friend request from db
-        handleDeleteFriendRequest(friendRequest)
+        handleDeleteFriendRequest(resp.data.data)
       })
       .catch( resp => console.log(resp))
   }
 
   const handleDeleteFriendRequest = (friendRequest) => {
+    console.log('IN HANDLE DELETE');
     friendRequest = cleanUpFriendRequest(friendRequest)
+    console.log('FR', friendRequest);
     const data = { friend_request: friendRequest.attributes }
+    console.log('DATA', data);
 
     axiosApiInstance.delete(`http://localhost:3000/api/v1/friend_requests/${friendRequest.id}`, data)
       .then( resp => {
