@@ -28,7 +28,7 @@ const Post = (props) => {
         user.length === 0 ? setHasUserLiked(false) : setHasUserLiked(true) ;
         setLoaded(true)
       })
-  }, [props.id, likes.length])
+  }, [props.id, likes.length, post])
 
   const LikeButton = () => {
     let button;
