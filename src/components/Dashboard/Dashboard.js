@@ -152,7 +152,7 @@ const Dashboard = (props) => {
   return (
     <Fragment>
       <StatusWrapper className="timedMessage">{props.location.state.statusMessage.text}</StatusWrapper>
-      <UserContext.Provider value={currentUser}>
+      <UserContext.Provider value={{currentUser: currentUser, friends: friends}}>
         <Navbar />
         <DashboardWrapper>
           <Breadcrumb handleViewForm={handleViewForm} />

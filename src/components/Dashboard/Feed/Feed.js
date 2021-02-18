@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import NewPost from './NewPost'
+import Posts from './Posts'
 
 const Wrapper = styled.div`
   display: flex;
@@ -12,7 +13,7 @@ const Feed = () => {
     <Wrapper>
       <div>[This is the Feed component]</div>
       <NewPost />
-      <div>[Show friend posts goes here]</div>
+      <Posts />
     </Wrapper>
   )
 }

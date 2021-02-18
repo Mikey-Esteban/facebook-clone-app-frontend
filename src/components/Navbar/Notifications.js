@@ -5,7 +5,7 @@ import { UserContext } from '../Dashboard/Dashboard'
 
 const Notifications = () => {
 
-  const currentUser = useContext(UserContext)
+  const { currentUser } = useContext(UserContext)
   const [ notifications, setNotifications ] = useState(currentUser.notifications.reverse())
   console.log(notifications);
 

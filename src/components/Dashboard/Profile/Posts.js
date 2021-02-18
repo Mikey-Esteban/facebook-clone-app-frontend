@@ -12,7 +12,7 @@ const CardWrapper = styled.div`
 
 const Posts = () => {
 
-  const currentUser = useContext(UserContext)
+  const { currentUser } = useContext(UserContext)
   const [ posts, setPosts ] = useState([])
 
   useEffect( () => {

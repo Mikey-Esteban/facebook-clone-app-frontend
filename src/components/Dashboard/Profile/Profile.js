@@ -5,7 +5,7 @@ import Posts from './Posts'
 
 const Profile = () => {
 
-  const currentUser = useContext(UserContext)
+  const { currentUser } = useContext(UserContext)
 
   return (
     <Fragment>

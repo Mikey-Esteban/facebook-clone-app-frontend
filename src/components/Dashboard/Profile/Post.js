@@ -11,7 +11,7 @@ const Card = styled.div`
 const Post = (props) => {
   console.log(props);
 
-  const currentUser = useContext(UserContext)
+  const { currentUser } = useContext(UserContext)
   const [ post, setPost ] = useState({})
   const [ likes, setLikes ] = useState([])
   const [ hasUserLiked, setHasUserLiked ] = useState(false)

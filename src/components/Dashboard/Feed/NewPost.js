@@ -33,7 +33,7 @@ const Field = styled.div`
 
 const NewPost = () => {
 
-  const currentUser = useContext(UserContext)
+  const { currentUser } = useContext(UserContext)
   const [ post, setPost ] = useState({user_id: currentUser.id})
 
   const handleSubmit = e => {
