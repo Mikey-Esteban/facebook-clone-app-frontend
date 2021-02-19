@@ -23,6 +23,11 @@ const Wrapper = styled.div`
   input:focus {
     outline: none;
   }
+
+  input::placeholder {
+    color: #fff;
+    font-style: italic;
+  }
 `
 
 const NewComment = (props) => {
