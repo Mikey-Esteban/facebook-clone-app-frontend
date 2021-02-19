@@ -7,7 +7,6 @@ const Notifications = () => {
 
   const { currentUser } = useContext(UserContext)
   const [ notifications, setNotifications ] = useState(currentUser.notifications.reverse())
-  console.log(notifications);
 
   const unreadNotificationsCount = () => {
     let count = 0

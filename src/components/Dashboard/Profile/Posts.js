@@ -17,12 +17,12 @@ const Posts = () => {
 
   useEffect( () => {
     // Api call for current users posts
-    axiosApiInstance.get(`http://localhost:3000/api/v1/users/${currentUser.id}`)
+    axiosApiInstance.get(`http://localhost:3000/api/v1/users/${currentUser.id}/posts`)
       .then( resp => {
-        setPosts(resp.data.data.attributes.posts)
+        setPosts(resp.data.data)
       })
       .catch( resp => console.log(resp))
-  }, [currentUser.id])
+  }, [currentUser.id, posts.length])
 
   const toggleLike = (post, hasUserLiked) => {
     if (!hasUserLiked) {
@@ -45,7 +45,7 @@ const Posts = () => {
     }
   }
 
-  const postsList = posts.map( item => <Post key={item.id} id={item.id} toggleLike={toggleLike} />)
+  const postsList = posts.map( item => <Post key={item.id} post={item} toggleLike={toggleLike} />)
 
   return (
     <CardWrapper>
