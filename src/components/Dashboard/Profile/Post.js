@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { UserContext } from '../Dashboard'
 import styled from 'styled-components'
 import Comment from './Comment'
+import NewComment from './NewComment'
 import Button from '../../UI/buttons/Button'
 
 const Card = styled.div`
@@ -39,6 +40,7 @@ const Post = (props) => {
       {hasUserLiked() && <div>{currentUser.name} liked this post</div>}
       {LikeButton()}
       <div>{commentsList}</div>
+      <NewComment post_id={post.id} />
     </Card>
   )
 }
