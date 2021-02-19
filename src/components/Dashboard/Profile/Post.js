@@ -1,9 +1,10 @@
-import React, { useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import { UserContext } from '../Dashboard'
 import styled from 'styled-components'
 import Comment from './Comment'
 import NewComment from './NewComment'
 import Button from '../../UI/buttons/Button'
+import OrangeButton from '../../UI/buttons/OrangeButton'
 
 const Card = styled.div`
   background: #fff;
@@ -16,6 +17,7 @@ const Post = (props) => {
   const { post } = props
   const likes = post.attributes.likes
   const comments = post.attributes.comments
+  const [ viewComments, setViewComments ] = useState(false)
 
   const hasUserLiked = () => {
     // check to see if user has already liked post
@@ -31,6 +33,10 @@ const Post = (props) => {
     return button
   }
 
+  const handleViewComments = () => {
+    viewComments === true ? setViewComments(false) : setViewComments(true) ;
+  }
+
   const commentsList = comments.map(item => <Comment key={item.id} comment={item}/> )
 
   return (
@@ -39,7 +45,8 @@ const Post = (props) => {
       <div>{likes.length} likes</div>
       {hasUserLiked() && <div>{currentUser.name} liked this post</div>}
       {LikeButton()}
-      <div>{commentsList}</div>
+      <OrangeButton onClick={handleViewComments}>View Comments</OrangeButton>
+      {viewComments && <div>{commentsList}</div>}
       <NewComment post_id={post.id} />
     </Card>
   )
