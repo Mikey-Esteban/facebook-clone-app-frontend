@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useEffect, useContext, Fragment } from 'react'
 import { UserContext } from '../Dashboard'
 import axiosApiInstance from '../../interceptor'
 import styled from 'styled-components'
@@ -15,26 +15,42 @@ const Post = (props) => {
   console.log(props);
 
   const { currentUser } = useContext(UserContext)
-  const { post } = props
-  const likes = post.attributes.likes
-  const comments = post.attributes.comments
+  const [ loaded, setLoaded ] = useState(false)
+  const [ post, setPost ] = useState({})
+  const [ comments, setComments ] = useState([])
+  const [ likes, setLikes ] = useState([])
   const [ viewComments, setViewComments ] = useState(false)
-  const [ newComment, setNewComment ] = useState(
-    {commenter: currentUser.name, user_id: currentUser.id, post_id: post.id}
-  )
+  const [ newComment, setNewComment ] = useState({})
 
-  const hasUserLiked = () => {
-    // check to see if user has already liked post
-    const user = likes.filter(item => item.user_id === currentUser.id)
-    return user.length > 0
-  }
+  useEffect( () => {
+    // get post details
+    axiosApiInstance.get(`http://localhost:3000/api/v1/posts/${props.post.id}`)
+      .then( resp => {
+        setPost(resp.data.data)
+        setLikes(resp.data.data.attributes.likes)
+        setComments(resp.data.data.attributes.comments)
+        setNewComment({commenter: currentUser.name, user_id: currentUser.id, post_id: post.id})
+        setLoaded(true)
+      })
+      .catch( resp => console.log(resp) )
+  }, [likes.length, comments.length])
 
-  const LikeButton = () => {
-    let button;
-    hasUserLiked() ?
-      button = <Button onClick={ () => props.toggleLike(post, hasUserLiked) }>UnLike</Button>:
-      button = <Button onClick={ () => props.toggleLike(post, hasUserLiked) }>Like</Button> ;
-    return button
+
+  const toggleLike = (hasUserLiked) => {
+    if (!hasUserLiked) {
+      // Api call to like user post
+      axiosApiInstance.post(`http://localhost:3000/api/v1/posts/${post.id}/likes`, { post: post})
+        .then( resp => setLikes( likes => [...likes, resp.data.data]) )
+        .catch( resp => console.log(resp))
+    } else {
+      // find like
+      const like = post.attributes.likes.filter(item => item.user_id === currentUser.id)[0]
+      // Api call to unlike user post
+      axiosApiInstance.delete(`http://localhost:3000/api/v1/posts/${post.id}/likes/${like.id}`, { like: like})
+        // filter out like
+        .then( resp => setLikes( likes.filter(item => item.user_id !== currentUser.id)) )
+        .catch( resp => console.log(resp))
+    }
   }
 
   const handleViewComments = () => {
@@ -51,31 +67,48 @@ const Post = (props) => {
 
     axiosApiInstance.post(`http://localhost:3000/api/v1/posts/${post.id}/comments`, { comment: newComment })
       .then( resp => {
-        debugger
         // reset comment
         setNewComment({commenter: currentUser.name, user_id: currentUser.id, post_id: post.id})
         // add comment to comments
-        comments.push(newComment)
+        setComments(comments => [...comments, newComment])
       })
       .catch( resp => console.log(resp))
+  }
+
+  const checkIfUserLiked = () => {
+    // check to see if user has already liked post
+    const user = likes.filter(item => item.user_id === currentUser.id)
+    return user.length > 0
+  }
+
+  const LikeButton = () => {
+    let button;
+    checkIfUserLiked() ?
+      button = <Button onClick={ () => toggleLike(true) }>UnLike</Button>:
+      button = <Button onClick={ () =>toggleLike(false) }>Like</Button> ;
+    return button
   }
 
 
   const commentsList = comments.map(item => <Comment key={item.id} comment={item}/> )
 
   return (
-    <Card>
-      <div>{post.attributes.author} wrote</div>
-      <div>{post.attributes.text}</div>
-      <div>{likes.length} likes</div>
-      {hasUserLiked() && <div>{currentUser.name} liked this post</div>}
-      {LikeButton()}
-      <OrangeButton onClick={handleViewComments}>View Comments</OrangeButton>
-      {viewComments && <div>{commentsList}</div>}
-      <NewComment comment={newComment}
-                  handleChange={handleCommentChange}
-                  handleSubmit={handleCommentSubmit} />
-    </Card>
+    <Fragment>
+      { loaded &&
+        <Card>
+          <div>{post.attributes.author} wrote</div>
+          <div>{post.attributes.text}</div>
+          <div>{likes.length} likes</div>
+          {checkIfUserLiked() && <div>{currentUser.name} liked this post</div>}
+          {LikeButton()}
+          <OrangeButton onClick={handleViewComments}>View Comments</OrangeButton>
+          {viewComments && <div>{commentsList}</div>}
+          <NewComment comment={newComment}
+                      handleChange={handleCommentChange}
+                      handleSubmit={handleCommentSubmit} />
+        </Card>
+      }
+    </Fragment>
   )
 }
 

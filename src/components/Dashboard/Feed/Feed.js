@@ -15,7 +15,7 @@ const Feed = () => {
   const { currentUser, friends } = useContext(UserContext)
   const [ userPosts, setUserPosts ] = useState([])
   const [ friendsPosts, setFriendsPosts ] = useState([])
-  const [ post, setPost ] = useState({user_id: currentUser.id})
+  const [ newPost, setNewPost ] = useState({user_id: currentUser.id})
 
   useEffect( () => {
     // Api call for current user's posts
@@ -33,19 +33,19 @@ const Feed = () => {
     })
   }, [])
 
-  const handleSubmit = e => {
+  const handlePostSubmit = e => {
     e.preventDefault()
 
-    axiosApiInstance.post('http://localhost:3000/api/v1/posts', { post: post })
+    axiosApiInstance.post('http://localhost:3000/api/v1/posts', { post: newPost })
       .then( resp => {
-        setPost({user_id: currentUser.id})
+        setNewPost({user_id: currentUser.id})
         setUserPosts([...userPosts, resp.data.data])
       })
       .catch( resp => console.log(resp))
   }
 
-  const handleChange = e => {
-    setPost({...post, [e.target.name]:e.target.value})
+  const handlePostChange = e => {
+    setNewPost({...newPost, [e.target.name]:e.target.value})
   }
 
   const grabAllPosts = () => {
@@ -69,9 +69,9 @@ const Feed = () => {
     <Wrapper>
       <div>[This is the Feed component]</div>
       <NewPost currentUser={currentUser}
-        handleSubmit={handleSubmit}
-        handleChange={handleChange}
-        post={post}
+        handleSubmit={handlePostSubmit}
+        handleChange={handlePostChange}
+        post={newPost}
       />
       <Posts searchFriends={true} posts={grabAllPosts()} />
     </Wrapper>
