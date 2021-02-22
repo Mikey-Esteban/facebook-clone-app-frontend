@@ -1,6 +1,4 @@
-import React, { useState, useContext } from 'react'
-import { UserContext } from '../Dashboard'
-import axiosApiInstance from '../../interceptor'
+import React from 'react'
 import styled from 'styled-components'
 import LightBlueButton from '../../UI/buttons/LightBlueButton'
 
@@ -32,34 +30,12 @@ const Wrapper = styled.div`
 
 const NewComment = (props) => {
 
-  const { currentUser } = useContext(UserContext)
-  const { post_id } = props
-  const [ comment, setComment ] = useState(
-    {commenter: currentUser.name, user_id: currentUser.id, post_id: post_id}
-  )
-
-  const handleChange = e => {
-    setComment({...comment, [e.target.name]:e.target.value})
-    console.log(comment);
-  }
-
-  const handleSubmit = e => {
-    e.preventDefault()
-
-    axiosApiInstance.post(`http://localhost:3000/api/v1/posts/${post_id}/comments`, { comment: comment })
-      .then( resp => {
-        // reset comment
-        setComment({commenter: currentUser.name, user_id: currentUser.id, post_id: post_id})
-      })
-      .catch( resp => console.log(resp))
-  }
-
-
   return (
     <Wrapper>
-      <form onSubmit={handleSubmit}>
-        <input type="text" name="text" onChange={handleChange} placeholder=" Leave a comment..."/>
-        <LightBlueButton>submit</LightBlueButton>
+      <form onSubmit={props.handleSubmit}>
+        <input type="text" name="text" value={props.comment.text || ''}
+          onChange={props.handleChange} placeholder=" Leave a comment..."/>
+        <LightBlueButton onClick={props.handleSubmit}>submit</LightBlueButton>
       </form>
     </Wrapper>
   )

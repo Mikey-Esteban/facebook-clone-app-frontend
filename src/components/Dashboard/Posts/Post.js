@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react'
 import { UserContext } from '../Dashboard'
+import axiosApiInstance from '../../interceptor'
 import styled from 'styled-components'
 import Comment from './Comment'
 import NewComment from './NewComment'
@@ -18,6 +19,9 @@ const Post = (props) => {
   const likes = post.attributes.likes
   const comments = post.attributes.comments
   const [ viewComments, setViewComments ] = useState(false)
+  const [ newComment, setNewComment ] = useState(
+    {commenter: currentUser.name, user_id: currentUser.id, post_id: post.id}
+  )
 
   const hasUserLiked = () => {
     // check to see if user has already liked post
@@ -37,6 +41,26 @@ const Post = (props) => {
     viewComments === true ? setViewComments(false) : setViewComments(true) ;
   }
 
+  const handleCommentChange = e => {
+    setNewComment({...newComment, [e.target.name]:e.target.value})
+    console.log(newComment);
+  }
+
+  const handleCommentSubmit = (e) => {
+    e.preventDefault()
+
+    axiosApiInstance.post(`http://localhost:3000/api/v1/posts/${post.id}/comments`, { comment: newComment })
+      .then( resp => {
+        debugger
+        // reset comment
+        setNewComment({commenter: currentUser.name, user_id: currentUser.id, post_id: post.id})
+        // add comment to comments
+        comments.push(newComment)
+      })
+      .catch( resp => console.log(resp))
+  }
+
+
   const commentsList = comments.map(item => <Comment key={item.id} comment={item}/> )
 
   return (
@@ -48,7 +72,9 @@ const Post = (props) => {
       {LikeButton()}
       <OrangeButton onClick={handleViewComments}>View Comments</OrangeButton>
       {viewComments && <div>{commentsList}</div>}
-      <NewComment post_id={post.id} />
+      <NewComment comment={newComment}
+                  handleChange={handleCommentChange}
+                  handleSubmit={handleCommentSubmit} />
     </Card>
   )
 }
