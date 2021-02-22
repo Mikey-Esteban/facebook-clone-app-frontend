@@ -15,7 +15,6 @@ const Profile = () => {
       .then( resp => {
         debugger
         setPosts(resp.data.data)
-        console.log(posts)
       })
       .catch( resp => console.log(resp))
   }, [currentUser.id, posts.length])

@@ -26,7 +26,6 @@ const Posts = (props) => {
     } else {
       // find like
       const like = post.attributes.likes.filter(item => item.user_id === currentUser.id)[0]
-      console.log('LIKE', like);
       // Api call to unlike user post
       axiosApiInstance.delete(`http://localhost:3000/api/v1/posts/${post.id}/likes/${like.id}`, { like: like})
         .then( resp => {
