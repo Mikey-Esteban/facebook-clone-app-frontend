@@ -9,6 +9,10 @@ import OrangeButton from '../../UI/buttons/OrangeButton'
 
 const Card = styled.div`
   background: #fff;
+  border-radius: 4px;
+  padding: 20px;
+
+  margin:10px;
 `
 
 const sortThis = (array) => {

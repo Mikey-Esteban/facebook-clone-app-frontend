@@ -3,9 +3,9 @@ import styled from 'styled-components'
 import Post from './Post'
 
 const CardWrapper = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 70%;
 `
 
 const Posts = (props) => {
