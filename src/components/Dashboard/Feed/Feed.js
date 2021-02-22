@@ -22,14 +22,12 @@ const Feed = () => {
     axiosApiInstance.get(`http://localhost:3000/api/v1/users/${currentUser.id}/posts`)
       .then( resp => {
         resp.data.data.forEach( item => allPosts.push(item) )
-        console.log(allPosts)
         // go through friends array, append posts
         friends.forEach( item => {
           const user_id = item.id
           axiosApiInstance.get(`http://localhost:3000/api/v1/users/${user_id}/posts`)
             .then( resp => {
               resp.data.data.forEach( item => allPosts.push(item) )
-              console.log(allPosts)
               setPosts(allPosts)
             })
             .catch( resp => console.log(resp))
@@ -41,13 +39,9 @@ const Feed = () => {
   const handleSubmit = e => {
     e.preventDefault()
 
-    console.log('HANDLE SUBMIT GOT CALLED');
-
     axiosApiInstance.post('http://localhost:3000/api/v1/posts', { post: post })
       .then( resp => {
-        // reset post
         setPost({user_id: currentUser.id})
-        // add posts to posts
         setPosts([...posts, resp.data.data])
       })
       .catch( resp => console.log(resp))
