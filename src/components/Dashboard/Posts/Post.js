@@ -11,8 +11,20 @@ const Card = styled.div`
   background: #fff;
 `
 
+const sortThis = (array) => {
+  function compare( a, b ) {
+    if (new Date(a.created_at) > new Date(b.created_at))
+       return -1;
+    if (new Date(a.created_at) < new Date(b.created_at))
+      return 1;
+    return 0;
+  }
+
+  const sorted = array.sort(compare)
+  return sorted
+}
+
 const Post = (props) => {
-  console.log(props);
 
   const { currentUser } = useContext(UserContext)
   const [ loaded, setLoaded ] = useState(false)
@@ -28,7 +40,7 @@ const Post = (props) => {
       .then( resp => {
         setPost(resp.data.data)
         setLikes(resp.data.data.attributes.likes)
-        setComments(resp.data.data.attributes.comments)
+        setComments(sortThis(resp.data.data.attributes.comments))
         setNewComment({commenter: currentUser.name, user_id: currentUser.id, post_id: post.id})
         setLoaded(true)
       })
@@ -88,7 +100,6 @@ const Post = (props) => {
       button = <Button onClick={ () =>toggleLike(false) }>Like</Button> ;
     return button
   }
-
 
   const commentsList = comments.map(item => <Comment key={item.id} comment={item}/> )
 

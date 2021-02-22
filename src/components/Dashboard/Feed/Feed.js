@@ -10,6 +10,19 @@ const Wrapper = styled.div`
   flex-direction: column;
 `
 
+const sortThis = (array) => {
+  function compare( a, b ) {
+    if (new Date(a.attributes.created_at) > new Date(b.attributes.created_at))
+       return -1;
+    if (new Date(a.attributes.created_at) < new Date(b.attributes.created_at))
+      return 1;
+    return 0;
+  }
+
+  const sorted = array.sort(compare)
+  return sorted
+}
+
 const Feed = () => {
 
   const { currentUser, friends } = useContext(UserContext)
@@ -49,22 +62,10 @@ const Feed = () => {
   }
 
   const grabAllPosts = () => {
-
-    function compare( a, b ) {
-      if (new Date(a.attributes.created_at) > new Date(b.attributes.created_at))
-         return -1;
-      if (new Date(a.attributes.created_at) < new Date(b.attributes.created_at))
-        return 1;
-      return 0;
-    }
-
     const posts = userPosts.concat(friendsPosts)
-    const sortedPosts = posts.sort(compare)
-
-    return sortedPosts
+    return sortThis(posts)
   }
 
-  grabAllPosts()
   return (
     <Wrapper>
       <div>[This is the Feed component]</div>
