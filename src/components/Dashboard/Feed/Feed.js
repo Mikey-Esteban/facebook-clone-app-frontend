@@ -13,28 +13,25 @@ const Wrapper = styled.div`
 const Feed = () => {
 
   const { currentUser, friends } = useContext(UserContext)
-  const [ posts, setPosts ] = useState([])
+  const [ userPosts, setUserPosts ] = useState([])
+  const [ friendsPosts, setFriendsPosts ] = useState([])
   const [ post, setPost ] = useState({user_id: currentUser.id})
 
   useEffect( () => {
-    let allPosts = []
-    // Api call for current users posts
+    // Api call for current user's posts
     axiosApiInstance.get(`http://localhost:3000/api/v1/users/${currentUser.id}/posts`)
-      .then( resp => {
-        resp.data.data.forEach( item => allPosts.push(item) )
-        // go through friends array, append posts
-        friends.forEach( item => {
-          const user_id = item.id
-          axiosApiInstance.get(`http://localhost:3000/api/v1/users/${user_id}/posts`)
-            .then( resp => {
-              resp.data.data.forEach( item => allPosts.push(item) )
-              setPosts(allPosts)
-            })
-            .catch( resp => console.log(resp))
-        })
-      })
+      .then( resp => setUserPosts(resp.data.data) )
       .catch( resp => console.log(resp))
-  }, [currentUser.id, friends, posts.length])
+    // iterate through friends, make api call of that friend's posts
+    friends.forEach(friend => {
+      axiosApiInstance.get(`http://localhost:3000/api/v1/users/${friend.id}/posts`)
+      .then( resp => {
+        const friendPosts = resp.data.data
+        friendPosts.forEach( post => setFriendsPosts(friendsPosts => [...friendsPosts, post]))
+      })
+        .catch( resp => console.log(resp))
+    })
+  }, [])
 
   const handleSubmit = e => {
     e.preventDefault()
@@ -42,16 +39,32 @@ const Feed = () => {
     axiosApiInstance.post('http://localhost:3000/api/v1/posts', { post: post })
       .then( resp => {
         setPost({user_id: currentUser.id})
-        setPosts([...posts, resp.data.data])
+        setUserPosts([...userPosts, resp.data.data])
       })
       .catch( resp => console.log(resp))
   }
 
   const handleChange = e => {
     setPost({...post, [e.target.name]:e.target.value})
-    console.log(post);
   }
 
+  const grabAllPosts = () => {
+
+    function compare( a, b ) {
+      if (new Date(a.attributes.created_at) > new Date(b.attributes.created_at))
+         return -1;
+      if (new Date(a.attributes.created_at) < new Date(b.attributes.created_at))
+        return 1;
+      return 0;
+    }
+
+    const posts = userPosts.concat(friendsPosts)
+    const sortedPosts = posts.sort(compare)
+
+    return sortedPosts
+  }
+
+  grabAllPosts()
   return (
     <Wrapper>
       <div>[This is the Feed component]</div>
@@ -60,7 +73,7 @@ const Feed = () => {
         handleChange={handleChange}
         post={post}
       />
-      <Posts searchFriends={true} posts={posts} />
+      <Posts searchFriends={true} posts={grabAllPosts()} />
     </Wrapper>
   )
 }

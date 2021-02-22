@@ -34,6 +34,7 @@ const Dashboard = (props) => {
   const currentUser = props.location.state.user
   const [ friends, setFriends ] = useState([])
   const [ nonFriendedUsers, setNonFriendedUsers ] = useState([])
+  const [ statusMessage, setStatusMessage ] = useState(props.location.state.statusMessage.text)
   const [ sentFriendRequests, setSentFriendRequests ] = useState([])
   const [ receivedFriendRequests, setReceivedFriendRequests ] = useState([])
   const [ viewFriendRequests, setViewFriendRequests ] = useState(false)
@@ -43,7 +44,7 @@ const Dashboard = (props) => {
   useEffect( () => {
     // set timeout function to erase login message
     const timer = setTimeout(() => {
-      document.querySelector('.timedMessage').textContent = '';
+      setStatusMessage('');
     }, 5000)
 
     // Api call to set friends
@@ -148,7 +149,7 @@ const Dashboard = (props) => {
 
   return (
     <Fragment>
-      <StatusWrapper className="timedMessage">{props.location.state.statusMessage.text}</StatusWrapper>
+      <StatusWrapper className="timedMessage">{statusMessage}</StatusWrapper>
       <UserContext.Provider value={{currentUser: currentUser, friends: friends}}>
         <Navbar />
         <DashboardWrapper>

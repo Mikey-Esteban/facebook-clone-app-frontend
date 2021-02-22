@@ -12,10 +12,7 @@ const Profile = () => {
   useEffect( () => {
     // Api call for current users posts
     axiosApiInstance.get(`http://localhost:3000/api/v1/users/${currentUser.id}/posts`)
-      .then( resp => {
-        debugger
-        setPosts(resp.data.data)
-      })
+      .then( resp => setPosts(resp.data.data) )
       .catch( resp => console.log(resp))
   }, [currentUser.id, posts.length])
 

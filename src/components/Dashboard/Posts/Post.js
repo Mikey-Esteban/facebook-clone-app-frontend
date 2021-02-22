@@ -41,7 +41,8 @@ const Post = (props) => {
 
   return (
     <Card>
-      <div>Post: {post.attributes.text}</div>
+      <div>{post.attributes.author} wrote</div>
+      <div>{post.attributes.text}</div>
       <div>{likes.length} likes</div>
       {hasUserLiked() && <div>{currentUser.name} liked this post</div>}
       {LikeButton()}
