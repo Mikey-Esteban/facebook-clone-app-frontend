@@ -41,9 +41,9 @@ const Dashboard = (props) => {
   const [ viewProfile, setViewProfile ] = useState(false)
 
   useEffect( () => {
-    // set timeout function to display login message
+    // set timeout function to erase login message
     const timer = setTimeout(() => {
-      document.querySelector('.timedMessage').style.display = 'none';
+      document.querySelector('.timedMessage').textContent = '';
     }, 5000)
 
     // Api call to set friends
@@ -119,11 +119,8 @@ const Dashboard = (props) => {
   }
 
   const handleDeleteFriendRequest = (friendRequest) => {
-    console.log('IN HANDLE DELETE');
     friendRequest = cleanUpFriendRequest(friendRequest)
-    console.log('FR', friendRequest);
     const data = { friend_request: friendRequest.attributes }
-    console.log('DATA', data);
 
     axiosApiInstance.delete(`http://localhost:3000/api/v1/friend_requests/${friendRequest.id}`, data)
       .then( resp => {
