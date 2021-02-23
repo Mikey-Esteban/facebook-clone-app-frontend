@@ -35,7 +35,7 @@ const IconWrapper = styled.div`
 const NotificationCount = styled.div`
   position: absolute;
   top: 4px;
-  right: 7px;
+  right: 12px;
   color: #eeeeee;
   font-size: 10px;
   font-weight: 700;
