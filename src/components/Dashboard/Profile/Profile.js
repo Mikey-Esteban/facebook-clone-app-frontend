@@ -7,6 +7,7 @@ import Posts from '../Posts/Posts'
 const Profile = () => {
 
   const { currentUser } = useContext(UserContext)
+  console.log(currentUser);
   const [ posts, setPosts ] = useState([])
 
   useEffect( () => {
@@ -19,6 +20,11 @@ const Profile = () => {
   return (
     <Fragment>
       <div>[ This is the User Profile Component ]</div>
+      <div>
+        {currentUser.name}
+        {currentUser.profile.bio}
+        <img src={currentUser.profile.image_url} alt=""/>
+      </div>
       <div>
         [ All of {currentUser.name} posts should go here ]
         <Posts posts={posts} />

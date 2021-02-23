@@ -15,6 +15,20 @@ const Card = styled.div`
   margin:10px;
 `
 
+const Header = styled.div`
+  display: flex;
+  align-items: center;
+
+  color: #979797; /* dark gray */
+`
+
+const ImageWrapper = styled.div`
+  img {
+    width: 64px;
+    border-radius: 50%;
+  }
+`
+
 const sortThis = (array) => {
   function compare( a, b ) {
     if (new Date(a.created_at) > new Date(b.created_at))
@@ -111,7 +125,12 @@ const Post = (props) => {
     <Fragment>
       { loaded &&
         <Card>
-          <div>{post.attributes.author} wrote</div>
+          <Header>
+            <ImageWrapper>
+              <img src={currentUser.profile.image_url} alt=""/>
+            </ImageWrapper>
+            <h3>{post.attributes.author}</h3>
+          </Header>
           <div>{post.attributes.text}</div>
           <div>{likes.length} likes</div>
           {checkIfUserLiked() && <div>{currentUser.name} liked this post</div>}
