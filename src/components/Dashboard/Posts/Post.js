@@ -4,21 +4,22 @@ import axiosApiInstance from '../../interceptor'
 import styled from 'styled-components'
 import Comment from './Comment'
 import NewComment from './NewComment'
-import Button from '../../UI/buttons/Button'
 import OrangeButton from '../../UI/buttons/OrangeButton'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHeart, faComments } from '@fortawesome/free-solid-svg-icons'
 
 const Card = styled.div`
   background: #fff;
   border: 1px solid #eeeeee;
   border-radius: 4px;
   color: #666666;
-  padding: 20px;
-
   margin:10px;
+  padding: 20px;
 `
 
 const Header = styled.div`
   display: flex;
+  gap: 20px;
   align-items: center;
 
   color: #979797; /* dark gray */
@@ -30,10 +31,24 @@ const ImageWrapper = styled.div`
     border-radius: 50%;
   }
 `
+const PostText = styled.div`
+  padding: 10px 20px;
+`
 
-const LikesCount = styled.div`
+const LikesDetails = styled.div`
+  display: flex;
+  gap: 10px;
   font-size: 12px;
   font-weight: 600;
+`
+
+const IconsWrapper = styled.div`
+  display: flex;
+  gap: 10px;
+
+  & > * {
+    cursor: pointer;
+  }
 `
 
 const sortThis = (array) => {
@@ -121,8 +136,8 @@ const Post = (props) => {
   const LikeButton = () => {
     let button;
     checkIfUserLiked() ?
-      button = <Button onClick={ () => toggleLike(true) }>UnLike</Button>:
-      button = <Button onClick={ () =>toggleLike(false) }>Like</Button> ;
+      button = <FontAwesomeIcon icon={faHeart} color="#d0102b" onClick={ () => toggleLike(true) } />:
+      button = <FontAwesomeIcon icon={faHeart} color="#979797" onClick={ () =>toggleLike(false) } /> ;
     return button
   }
 
@@ -138,11 +153,15 @@ const Post = (props) => {
             </ImageWrapper>
             <h3>{post.attributes.author}</h3>
           </Header>
-          <div>{post.attributes.text}</div>
-          <LikesCount>{likes.length} likes</LikesCount>
-          {checkIfUserLiked() && <div>{currentUser.name} liked this post</div>}
-          {LikeButton()}
-          <OrangeButton onClick={handleViewComments}>View Comments</OrangeButton>
+          <PostText>{post.attributes.text}</PostText>
+          <LikesDetails>
+            {likes.length} likes
+            {checkIfUserLiked() && <div>You liked this post</div>}
+          </LikesDetails>
+          <IconsWrapper>
+            {LikeButton()}
+            <FontAwesomeIcon icon={faComments} color="#979797" onClick={handleViewComments} />
+          </IconsWrapper>
           {viewComments && <div>{commentsList}</div>}
           <NewComment comment={newComment}
                       handleChange={handleCommentChange}
