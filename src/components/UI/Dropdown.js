@@ -6,12 +6,39 @@ import { faBell } from '@fortawesome/free-solid-svg-icons'
 const DropdownWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
   width: 200px;
 `
 
 const Header = styled.div`
-  display: flex;
-  justify-content: space-around;
+  position: relative;
+  color: #666666; /* dark gray */
+  font-size: 14px;
+`
+
+const IconWrapper = styled.div`
+  position: relative;
+  float: right;
+  width: 20px;
+  height: 20px;
+
+  border: 1px solid #666666;  /* dark gray */
+  border-radius: 50%;
+  margin-right: 5px;
+  padding: 8px;
+
+  text-align: center;
+  background: #666666; /* dark gray */
+  color: #eeeeee; /* light gray */
+  cursor: pointer;
+`
+const NotificationCount = styled.div`
+  position: absolute;
+  top: 4px;
+  right: 7px;
+  color: #eeeeee;
+  font-size: 10px;
+  font-weight: 700;
 `
 
 const Button = styled.div`
@@ -33,15 +60,6 @@ const Button = styled.div`
   }
 `
 
-const TitleWrapper = styled.div`
-  color: #1d3557; /* dark blue */
-`
-
-const IconWrapper = styled.div`
-  margin-right: 20px;
-  cursor: pointer;
-`
-
 const Dropdown = (props) => {
 
   const list = props.list
@@ -55,10 +73,12 @@ const Dropdown = (props) => {
   return (
     <DropdownWrapper>
       <Header>
-        { props.headerTitle }
         <IconWrapper onClick={toggleList}>
-          <FontAwesomeIcon icon={faBell} color="#8d99ae" />
+          <FontAwesomeIcon icon={faBell} color="#eeeeee" />
         </IconWrapper>
+        {props.showNotificationCount &&
+          <NotificationCount>{ props.headerTitle }</NotificationCount>
+        }
       </Header>
       {isListOpen && (
         <div role="list" className="dd-list" >
@@ -68,7 +88,7 @@ const Dropdown = (props) => {
               className="dd-list-item"
               key={item.id}
             >
-              <TitleWrapper>{item.text}</TitleWrapper>
+              {item.text}
               {' '}
             </Button>
           ))}

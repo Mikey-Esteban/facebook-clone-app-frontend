@@ -16,6 +16,10 @@ const Notifications = () => {
     return count
   }
 
+  const showNotificationCount = () => {
+    return unreadNotificationsCount() === 0 ? false : true ;
+  }
+
   const handleReadNotifications = () => {
     notifications.forEach( item => {
       if (item.read === false) {
@@ -29,7 +33,8 @@ const Notifications = () => {
   }
 
   return (
-    <Dropdown headerTitle={`${unreadNotificationsCount()} notifications`}
+    <Dropdown headerTitle={`${unreadNotificationsCount()}`}
+      showNotificationCount={showNotificationCount()}
       list={notifications}
       handleReadNotifications={handleReadNotifications}
     />

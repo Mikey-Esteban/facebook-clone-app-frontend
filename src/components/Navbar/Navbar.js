@@ -11,7 +11,11 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: flex-start;
+  height: 40px;
   width: 100%;
+
+  padding: 10px 0;
+  border-bottom: 1px solid #eeeeee;
 `
 
 const Navbar = () => {
