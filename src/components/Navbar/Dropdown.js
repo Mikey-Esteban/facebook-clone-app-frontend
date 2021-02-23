@@ -27,10 +27,16 @@ const IconWrapper = styled.div`
   margin-right: 5px;
   padding: 8px;
 
-  text-align: center;
   background: #666666; /* dark gray */
   color: #eeeeee; /* light gray */
   cursor: pointer;
+  text-align: center;
+  transition: all ease-in-out 100ms;
+
+  &:hover {
+    background: #979797; /* medium gray */
+    border: 1px solid #979797; /* medium gray */
+  }
 `
 const NotificationCount = styled.div`
   position: absolute;

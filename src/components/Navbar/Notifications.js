@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react'
 import axiosApiInstance from '../interceptor'
-import Dropdown from '../UI/Dropdown'
+import Dropdown from './Dropdown'
 import { UserContext } from '../Dashboard/Dashboard'
 
 const Notifications = () => {
