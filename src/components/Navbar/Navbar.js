@@ -47,7 +47,6 @@ const Navbar = () => {
 
   return (
     <Wrapper>
-      [This is my Navbar component]
       <Notifications />
       <GrayButton onClick={handleLogOut}>Log out</GrayButton>
     </Wrapper>
