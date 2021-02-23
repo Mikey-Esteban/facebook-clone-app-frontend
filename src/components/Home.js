@@ -2,13 +2,16 @@ import React, { useState, Fragment } from 'react'
 import styled from 'styled-components'
 import { Redirect } from 'react-router'
 import Login from './Login'
+import GetStarted from './GetStarted'
 
 const Wrapper = styled.div`
   margin: 0 auto;
   margin-top: 100px;
+  padding-top: 20px;
   width: 400px;
 
   border: 1px solid #eae7dc; /* light-gray */
+  z-index: 1;
 `
 
 const StatusWrapper = styled.div`
@@ -17,6 +20,13 @@ const StatusWrapper = styled.div`
   padding-left: 20px;
   font-weight: 600;
   color: #d0102b; /* red */
+`
+
+const GetStartedWrapper = styled.div`
+  position: absolute;
+  bottom: 50px;
+  right: 20px;
+  z-index: -1;
 `
 
 const Home = () => {
@@ -82,9 +92,11 @@ const Home = () => {
         <StatusWrapper>{statusMessage.text}</StatusWrapper>
       }
       <Wrapper>
-        <div>[Hello world from App component]</div>
         <Login handleChange={handleChange} handleSubmit={handleSubmit} />
       </Wrapper>
+      <GetStartedWrapper>
+        <GetStarted />
+      </GetStartedWrapper>
     </Fragment>
   )
 }
