@@ -37,7 +37,7 @@ const Dashboard = (props) => {
   const [ sentFriendRequests, setSentFriendRequests ] = useState([])
   const [ receivedFriendRequests, setReceivedFriendRequests ] = useState([])
   const [ viewFriendRequests, setViewFriendRequests ] = useState(false)
-  const [ viewFeed, setViewFeed ] = useState(false)
+  const [ viewFeed, setViewFeed ] = useState(true)
   const [ viewProfile, setViewProfile ] = useState(false)
 
   useEffect( () => {
