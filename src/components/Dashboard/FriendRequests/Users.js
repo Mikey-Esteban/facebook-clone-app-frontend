@@ -1,16 +1,29 @@
 import React, { Fragment } from 'react'
+import styled from 'styled-components'
 import Button from '../../UI/buttons/Button'
 import LightBlueButton from '../../UI/buttons/LightBlueButton'
-import OrangeButton from '../../UI/buttons/OrangeButton'
-import GrayButton from '../../UI/buttons/GrayButton'
+import DarkBlueButton from '../../UI/buttons/DarkBlueButton'
+
+const List = styled.li`
+  display: flex;
+  align-items: baseline;
+`
+
+
+const ButtonWrapper = styled.div`
+  margin-left: 5px;
+
+  button {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+`
 
 const Users = (props) => {
 
   const friendRequestButton = (user_id) => {
 
-    if ( props.status === 'pending' && props.actor === 'sender' ) {
-      return <LightBlueButton> sent! </LightBlueButton>
-    } else if (props.status === 'pending' && props.actor === 'receiver' ) {
+  if (props.status === 'pending' && props.actor === 'receiver' ) {
       return (
         <Fragment>
           <LightBlueButton onClick={() => props.handleAcceptFriendRequest(props.friendRequest)}>
@@ -21,21 +34,19 @@ const Users = (props) => {
       )
     }  else if ( props.status === null || props.status === 'rejected' ) {
       return (
-        <OrangeButton onClick={() => props.handleSendFriendRequest(user_id)}>
+        <DarkBlueButton onClick={() => props.handleSendFriendRequest(user_id)}>
           send request
-        </OrangeButton>
+        </DarkBlueButton>
       )
-    } else if ( props.status === 'accepted' ) {
-      return <GrayButton>friend</GrayButton>
     }
   }
 
   return (
-    <li key={props.user.id}>
+    <List key={props.user.id}>
       {props.user.attributes && props.user.attributes.name}
       {props.user.name && props.user.name}
-      { friendRequestButton(props.user.id) }
-    </li>
+      <ButtonWrapper>{ friendRequestButton(props.user.id) }</ButtonWrapper>
+    </List>
   )
 }
 

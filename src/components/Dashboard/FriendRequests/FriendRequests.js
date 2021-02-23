@@ -2,10 +2,23 @@ import React, { Fragment } from 'react'
 import styled from 'styled-components'
 import Users from './Users'
 
-const List = styled.ul`
+const MenuList = styled.ul`
   li {
-    margin: 10px 0;
+    padding: 5px 10px;
+
+    ${'' /* background: #ffffff; */}
+    border-left: 1px solid #979797;
+    color: #666666;
+    font-size: 14px;
+    list-style: none;
   }
+`
+
+const MenuLabel = styled.p`
+  color: #666666; /* dark gray */
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
 `
 
 const FriendRequests = (props) => {
@@ -86,22 +99,21 @@ const FriendRequests = (props) => {
 
   return (
     <Fragment>
-      <div>[FriendRequests component]</div>
       <div className="received-friend-requests-status">
-        <p>Respond back!</p>
-        <List>{receivedFriendRequestsList}</List>
+        <MenuLabel>Respond back!</MenuLabel>
+        <MenuList>{receivedFriendRequestsList}</MenuList>
       </div>
       <div className="friended-users">
-        <p>Friends List</p>
-        <List>{friendsList}</List>
+        <MenuLabel>Friends List</MenuLabel>
+        <MenuList>{friendsList}</MenuList>
       </div>
       <div className="non-friended-users">
-        <p>People to friend...</p>
-        <List>{nonFriendsList}</List>
+        <MenuLabel>People to friend...</MenuLabel>
+        <MenuList>{nonFriendsList}</MenuList>
       </div>
       <div className="sent-friend-requests-status">
-        <p>Sent requests</p>
-        <List>{sentFriendRequestsList}</List>
+        <MenuLabel>Sent requests</MenuLabel>
+        <MenuList>{sentFriendRequestsList}</MenuList>
       </div>
 
     </Fragment>

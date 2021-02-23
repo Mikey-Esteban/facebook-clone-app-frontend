@@ -17,7 +17,6 @@ const DashboardWrapper = styled.div`
   max-width: 800px;
   padding: 20px 40px;
 
-  background: #eee;
   border-radius: 4px;
 `
 

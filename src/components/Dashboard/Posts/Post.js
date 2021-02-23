@@ -9,7 +9,9 @@ import OrangeButton from '../../UI/buttons/OrangeButton'
 
 const Card = styled.div`
   background: #fff;
+  border: 1px solid #eeeeee;
   border-radius: 4px;
+  color: #666666;
   padding: 20px;
 
   margin:10px;
@@ -27,6 +29,11 @@ const ImageWrapper = styled.div`
     width: 64px;
     border-radius: 50%;
   }
+`
+
+const LikesCount = styled.div`
+  font-size: 12px;
+  font-weight: 600;
 `
 
 const sortThis = (array) => {
@@ -132,7 +139,7 @@ const Post = (props) => {
             <h3>{post.attributes.author}</h3>
           </Header>
           <div>{post.attributes.text}</div>
-          <div>{likes.length} likes</div>
+          <LikesCount>{likes.length} likes</LikesCount>
           {checkIfUserLiked() && <div>{currentUser.name} liked this post</div>}
           {LikeButton()}
           <OrangeButton onClick={handleViewComments}>View Comments</OrangeButton>

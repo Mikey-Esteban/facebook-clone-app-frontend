@@ -5,6 +5,8 @@ import LightBlueButton from '../../UI/buttons/LightBlueButton'
 const Wrapper = styled.div`
   display: flex;
   max-width: 600px;
+
+  border: 1px solid #efefef;
   color: #fff;
 
   label, textarea {
@@ -14,6 +16,7 @@ const Wrapper = styled.div`
   textarea {
     border: none;
     padding: 10px;
+    width: 580px;
 
     font-family: 'Open Sans', sans-serif;
     font-size: 16px;
@@ -35,7 +38,6 @@ const NewPost = (props) => {
     <Wrapper>
       <form onSubmit={props.handleSubmit}>
         <Field>
-          <label htmlFor="text">Whats on your mind?</label>
           <textarea name="text" cols="48" rows="10"
             placeholder={`What's on your mind, ${props.currentUser.name}?`}
             onChange={props.handleChange}

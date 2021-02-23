@@ -68,7 +68,6 @@ const Feed = () => {
 
   return (
     <Wrapper>
-      <div>[This is the Feed component]</div>
       <NewPost currentUser={currentUser}
         handleSubmit={handlePostSubmit}
         handleChange={handlePostChange}
