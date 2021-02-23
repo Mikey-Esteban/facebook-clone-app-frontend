@@ -20,7 +20,7 @@ const Login = (props) => {
 
       <Field>
         <label htmlFor="password">Password</label>
-        <input type="text" name="password" onChange={props.handleChange} />
+        <input type="password" name="password" onChange={props.handleChange} />
       </Field>
 
       <ButtonWrapper>
